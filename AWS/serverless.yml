@@ -1,0 +1,111 @@
+service: medusa
+package:
+  individually: false
+
+provider:
+  name: aws
+  stage: prod
+  runtime: python3.6
+  region: us-east-1
+
+resources:
+  Resources:
+    MedusaTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: medusawebapptable
+        AttributeDefinitions:
+          - AttributeName: TREE
+            AttributeType: S
+          - AttributeName: TRUNK
+            AttributeType: S
+        KeySchema:
+          - AttributeName: TREE
+            KeyType: HASH
+          - AttributeName: TRUNK
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+
+    MedusaWebAppLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        LogGroupName: /aws/lambda/MedusaWebApp
+        RetentionInDays: 1
+
+    MedusaRole:
+      Type: AWS::IAM::Role
+      Properties:
+        Path: /medusa/
+        RoleName: MedusaRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action: sts:AssumeRole
+        Policies:
+          - PolicyName: MedusaPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:GetRecords
+                    - dynamodb:GetShardIterator
+                    - dynamodb:DescribeStream
+                    - dynamodb:ListStreams
+                    - dynamodb:DescribeTable
+                    - dynamodb:Query
+                    - dynamodb:Scan
+                    - dynamodb:GetItem
+                    - dynamodb:PutItem
+                    - dynamodb:UpdateItem
+                    - dynamodb:DeleteItem
+                    - dynamodb:BatchWriteItem
+                  Resource: 
+                    Fn::GetAtt:
+                      - MedusaTable
+                      - Arn
+
+                - Effect: Allow
+                  Action:
+                    - logs:PutLogEvents
+                    - logs:CreateLogStream
+                  Resource:
+                    Fn::GetAtt:
+                      - MedusaWebAppLogGroup
+                      - Arn
+
+
+functions:
+  MedusaWebApp:
+    name: MedusaWebApp
+    handler: MedusaWebApp.lambda_handler
+    description: Provide lambda endpoint for Mobius HTTPS API functions
+    memorySize: 128
+    timeout: 30
+    role:
+      Fn::GetAtt:
+        - MedusaRole
+        - Arn
+    events:
+      - http:
+          path: /
+          method: get
+          request:
+            parameters:
+              querystrings:
+                entry_title: true
+      - http:
+          path: /
+          method: post
+          request:
+            parameters:
+              querystrings:
+                entry_title: true
+
+
+plugins:
+  - serverless-python-requirements

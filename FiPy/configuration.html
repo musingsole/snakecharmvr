@@ -1,0 +1,22 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+
+    </head>
+
+    <body>
+        <h1>Welcome! Medusa Configuration Page</h1><br>
+        <h2>{message}</h2><br>
+
+        <form action="/configure_form" method="post">
+            Jormunitor Device SID: {device_sid}<br>
+            WiFi SSID: <input type="text" name="ssid"><br>
+            WiFi Password: <input type="text" name="password"><br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    </body>
+</html>
+
+<!--A full WiFi config would require more settings like gateway, dns, netmask, timeout and IP address-->

@@ -1,0 +1,5 @@
+{
+    "version": "0.0.1",
+    "ignore_files": ["send_commands.py"],
+    "save_files": ["configuration.json", "medusa.json"]
+}
