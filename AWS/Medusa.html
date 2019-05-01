@@ -1,14 +1,116 @@
+<!DOCTYPE html>
 <html>
   <head>
+    <title>Medusa</title>
+    <meta name="description" content="Medusa">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://aframe.io/releases/0.9.1/aframe.min.js"></script>
   </head>
+  <script>
+    function create(){
+      var sceneEl = document.querySelector('a-scene');
+      var hinge = document.createElement("a-entity")
+      var arm = document.createElement("a-entity")
+
+      hinge.setAttribute('id', 'hinge')
+      hinge.setAttribute('position', '0, 1, -5')
+      hinge.setAttribute('rotation', "90 0 0")
+      hinge.setAttribute('geometry', "primitive: cylinder; height: 1; radius: 0.25;")
+      hinge.setAttribute('material', "color: #AB3CF2")
+
+      sceneEl.appendChild(hinge)
+
+      arm.setAttribute('id', 'arm')
+      arm.setAttribute('position', '0, 2, -5.05')
+      arm.setAttribute('geometry', 'primitive: box; depth: 0.9; height: 2; width: 0.4')
+      arm.setAttribute('material', 'color: #DEADBE')
+
+      sceneEl.appendChild(arm)
+
+    }
+
+    function animate(){
+      var arm = document.querySelector('#servoarm')
+      arm.setAttribute("animation__zam", "property: rotation; to: 0 0 -360; dir: alternate; loop: true; dur: 10000")
+    }
+
+    $(document).ready(function(){
+      //setTimeout(animate, 2000)
+    })
+
+    AFRAME.registerComponent('change-color-on-hover', {
+      schema: {
+        color: {default: 'red'}
+      },
+
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+        var defaultMaterial = el.getAttribute('default_material');
+
+        el.addEventListener('mouseenter', function () {
+          el.setAttribute('material', data);
+        });
+
+        el.addEventListener('mouseleave', function () {
+          el.setAttribute('material', defaultMaterial);
+        });
+      }
+    });
+  </script>
   <body>
     <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
+      <a-camera><a-cursor></a-cursor></a-camera>
+
+      <a-entity
+        id="servoarm"
+        position="0 2.5 -3"
+        animation__zam="property: rotation; to: 0 0 -360; loop: true; dur: 10000; easing: linear"
+      >
+        <a-entity
+          id="hinge"
+          geometry="primitive: cylinder; height: 1; radius: 0.25;"
+          material="color: #AB3CF2"
+          default_material="color: #AB3CF2"
+          change-color-on-hover="color: green"
+          rotation="90 0 0"
+        >
+        </a-entity>
+        <a-entity
+          id="arm"
+          geometry="primitive: box; depth:? 0.9; height: 2; width: 0.4"
+          material="color: #EB3CF2"
+          default_material="color: #4CC3D9"
+          change-color-on-hover="color: green"
+          position="0 1.1 -0.1"
+        >
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="box"
+        geometry="primitive: box; width: 1; depth: 1; height: 1"
+        position="-3 0.5 -3"
+        rotation="0 45 0"
+        material="color: #4CC3D9"
+        default_material="color: #4CC3D9"
+        change-color-on-hover="color: green"
+        animation__sidestep="property: position; to: 3 2 -3; dir: alternate; loop: true; dur: 3000; easing: linear"
+      >
+      </a-entity>
+
+      <a-entity
+        id="cylinder"
+        geometry="primitive: cylinder; radius: 0.5; height: 1.5"
+        position="3 0 -3"
+        material="color: #FFC65D"
+        default_material="color: #FFC65D"
+        change-color-on-hover="color: green"
+        animation__rook="property: position; to: -3 3 -3; dir: alternate; loop: true; dur: 2980; easing: linear"
+      >
+      </a-entity>
+
+      <a-entity id="sky" geometry="primitive: sphere; radius: 100" material="color: #EFECFC; shader: flat; side: back"></a-entity>
     </a-scene>
   </body>
 </html>

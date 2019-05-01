@@ -6,7 +6,7 @@ from markdown import markdown as markdown_to_html
 ###############################################################################
 
 
-snakecharmvr_mem = DDBMemory(tablename="snakecharmvrwebapptable")
+medusa_mem = DDBMemory(tablename="medusawebapptable")
 
 
 def get_home_page(event=None):
@@ -20,7 +20,7 @@ def get_home_page(event=None):
 def retrieve_entry_page(entry_title):
     try:
         print("Recovering memory")
-        memories = snakecharmvr_mem.remember("entry_title", trunk=entry_title)
+        memories = medusa_mem.remember("entry_title", trunk=entry_title)
     except Exception as e:
         print("Failed: {}".format(e))
         memories = []
@@ -62,7 +62,7 @@ def post(event):
             "BRANCH": entry_title,
             "PAGE": page
         })
-        snakecharmvr_mem.memorize([memory], identifier="{}_write".fromat(entry_title))
+        medusa_mem.memorize([memory], identifier="{}_write".fromat(entry_title))
     except Exception as e:
         print("Failed to store {}".format(entry_title))
         return 502, "Failed to write entry {}".format(entry_title)
