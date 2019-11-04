@@ -98,14 +98,6 @@ functions:
             parameters:
               querystrings:
                 entry_title: true
-      - http:
-          path: /
-          method: post
-          request:
-            parameters:
-              querystrings:
-                entry_title: true
-
 
 plugins:
   - serverless-python-requirements

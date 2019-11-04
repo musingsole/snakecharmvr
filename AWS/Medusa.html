@@ -41,6 +41,56 @@
   <body>
     <a-scene>
       <a-camera><a-cursor></a-cursor></a-camera>
+
+      <a-entity
+        id="servoarm"
+        position="0 2.5 -3"
+        animation__zam="property: rotation; to: 0 0 -360; loop: true; dur: 10000; easing: linear"
+        camer
+      >
+        <a-entity
+          id="hinge"
+          geometry="primitive: cylinder; height: 1; radius: 0.25;"
+          material="color: #AB3CF2"
+          default_material="color: #AB3CF2"
+          change-color-on-hover="color: green"
+          rotation="90 0 0"
+        >
+        </a-entity>
+        <a-entity
+          id="arm"
+          geometry="primitive: box; depth:? 0.9; height: 2; width: 0.4"
+          material="color: #EB3CF2"
+          default_material="color: #4CC3D9"
+          change-color-on-hover="color: green"
+          position="0 1.1 -0.1"
+        >
+        </a-entity>
+      </a-entity>
+
+      <a-entity
+        id="box"
+        geometry="primitive: box; width: 1; depth: 1; height: 1"
+        position="-3 0.5 -10"
+        rotation="0 45 0"
+        material="color: #9CC3D9"
+        default_material="color: #9CC3D9"
+        change-color-on-hover="color: green"
+        animation__sidestep="property: position; to: 3 2 -3; dir: alternate; loop: true; dur: 3000; easing: linear"
+      >
+      </a-entity>
+
+      <a-entity
+        id="cylinder"
+        geometry="primitive: cylinder; radius: 0.5; height: 1.5"
+        position="3 0 -15"
+        material="color: #FFC65D"
+        default_material="color: #FFC65D"
+        change-color-on-hover="color: green"
+        animation__rook="property: position; to: -3 3 -3; dir: alternate; loop: true; dur: 2980; easing: linear"
+      >
+      </a-entity>
+
       <a-entity id="sky" geometry="primitive: sphere; radius: 100" material="color: #EFECFC; shader: flat; side: back"></a-entity>
     </a-scene>
   </body>
