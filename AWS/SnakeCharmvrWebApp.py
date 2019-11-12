@@ -18,7 +18,7 @@ def get(event):
 
 def init_lambda_page():
     page = LambdaPage()
-    page.add_endpoint("get", "/", get, "text/html")
+    page.add_endpoint("get", "/{proxy+}", get, "text/html")
 
     return page
 
