@@ -2,13 +2,15 @@ from LambdaPage import LambdaPage
 
 
 def get(event):
+    print("Received Event: {}".format(event))
     path = event['path']
-    if path not in [
-       '/Medusa.html',
-       '/Medusa.js',
-       '/aframe.min.js',
-    ]:
+    if path == '/':
+        path = '/SnakeCharmvr.html'
+    if path not in ['/SnakeCharmvr.html',
+                    '/SnakeCharmvr.js',
+                    '/aframe.min.js']:
         return 404
+    path = path.lstrip('/')
     with open(path, 'r') as f:
         page = f.read()
     return 200, page
