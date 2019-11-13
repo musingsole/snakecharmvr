@@ -5,7 +5,7 @@
     <meta name="description" content="SnakeCharmvr">
     <!-- online scripts
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@fb322bc51e38272b3afa927a293c5844bdc3782c/dist/aframe-master.min.js"></script>
+    <script src="./aframe.min.js"></script>
     <script src="./jquery.min.js"></script>
     <script src="./SnakeCharmvr.js"></script>
   </head>
@@ -42,9 +42,9 @@
 
       <a-entity
         id="servoarm"
-        position="0 2.5 -3"
-        animation__zam="property: rotation; to: 0 0 -360; loop: true; dur: 10000; easing: linear"
-        camer
+        position="0 0 -3"
+        animation__zam="property: rotation; to: 0 0 90; dir: alternate; loop: true; dur: 10000; easing: linear"
+        rotation="0 0 -90"
       >
         <a-entity
           id="hinge"
@@ -57,11 +57,11 @@
         </a-entity>
         <a-entity
           id="arm"
-          geometry="primitive: box; depth:? 0.9; height: 2; width: 0.4"
+          geometry="primitive: box; depth:0.9; height: 2; width: 0.4"
           material="color: #EB3CF2"
           default_material="color: #4CC3D9"
           change-color-on-hover="color: green"
-          position="0 1.1 -0.1"
+          position="0 1.1 0"
         >
         </a-entity>
       </a-entity>
