@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ServoArm</title>
+    <meta name="description" content="ServoArm">
+    <!-- online scripts
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <script src="./aframe.min.js"></script>
+    <script src="./jquery.min.js"></script>
+    <script>
+        $(document).keypress(function(e){
+            var servo_arm = document.getElementById('servoarm');
+            var alteration = 0
+            if (e.key == "j") {
+                alteration = 5
+            } else if (e.key == "l"){
+                alteration = -5
+            } else {
+                return
+            }
+            var rotation = servo_arm.getAttribute("rotation")
+            rotation[z] += alteration
+            servo_arm.setAttribute("rotation", rotation)
+        });
+    </script>
+  </head>
+  <script>
+    AFRAME.registerComponent('change-color-on-hover', {
+      schema: {
+        color: {default: 'red'}
+      },
+
+      init: function () {
+        var data = this.data;
+        var el = this.el;  // <a-box>
+        var defaultMaterial = el.getAttribute('default_material');
+
+        el.addEventListener('mouseenter', function () {
+          el.setAttribute('material', data);
+        });
+
+        el.addEventListener('mouseleave', function () {
+          el.setAttribute('material', defaultMaterial);
+        });
+      }
+    });
+
+    $(document).ready(function(){
+      document.addEventListener('mousemove', yeslistener)
+      document.addEventListener('mousemove', nolistener)
+      document.addEventListener('mousemove', devicelistener)
+    })
+  </script>
+  <body>
+    <a-scene>
+      <a-camera><a-cursor></a-cursor></a-camera>
+
+      <a-entity
+        id="servoarm"
+        position="0 0 -3"
+        rotation="0 0 -90"
+      >
+        <a-entity
+          id="hinge"
+          geometry="primitive: cylinder; height: 1; radius: 0.25;"
+          material="color: #AB3CF2"
+          default_material="color: #AB3CF2"
+          change-color-on-hover="color: green"
+          rotation="90 0 0"
+        >
+        </a-entity>
+        <a-entity
+          id="arm"
+          geometry="primitive: box; depth:0.9; height: 2; width: 0.4"
+          material="color: #EB3CF2"
+          default_material="color: #4CC3D9"
+          change-color-on-hover="color: green"
+          position="0 1.1 0"
+        >
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="sky" geometry="primitive: sphere; radius: 100" material="color: #EFECFC; shader: flat; side: back"></a-entity>
+    </a-scene>
+  </body>
+</html>
