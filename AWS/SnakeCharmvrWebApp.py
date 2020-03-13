@@ -1,12 +1,19 @@
 from LambdaPage import LambdaPage
 
 
+def strip_prefix(base, prefix):
+    return base[base.startswith(prefix) and len(prefix):]
+
+
 def get(event):
     print("Received Event: {}".format(event))
     path = event['path']
     if path == '/':
         return 404
-    path = path.lstrip('/')
+    p1 = '/snakecharmvr/'
+    p2 = "/"
+    path = strip_prefix(strip_prefix(path, p1), p2)
+    print(f"Opening {path}")
     with open(path, 'r') as f:
         page = f.read()
     return 200, page

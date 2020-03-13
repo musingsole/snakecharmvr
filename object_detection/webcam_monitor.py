@@ -10,7 +10,8 @@ vc1 = cv2.VideoCapture(device)
 if vc1.isOpened():  # try to get the first frame
     rval, frame = vc1.read()
 else:
-    rval = False
+    cv2.destroyWindow("preview")
+    raise Exception("Failed to acquire frame")
 
 index = 0
 while rval:
